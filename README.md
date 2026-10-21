@@ -2,6 +2,7 @@
 
 Why are employees leaving a restaurant, how long do they stay, and where should management act first?
 Dashboard built from 99 exit interviews (anonymized data from a real client).
+The analysis focuses on the 59 exits from January 2025 to October 2026, when records are most complete.
 
 ![Summary](images/resumen.png)
 
