@@ -63,8 +63,8 @@ Brecha vs meta = [Calificación (sobre 10)] - [Meta]
 
 ## Anonymization
 Names, employee numbers and names mentioned in comments were replaced with a Python script
-(`scripts/encuesta_salida .py`) before publishing.
+(`encuesta_salida.ipynb`) before publishing.
 
 ## How to open
 1. Clone the repo and open `encuesta-salida.pbip` in Power BI Desktop.
-2. Update the data source path to `data/entrevista_salida_anonima.xlsx` (Transform data → Source).
+2. Update the data source path to `entrevista_salida_anonima.xlsx` (Transform data → Source).
