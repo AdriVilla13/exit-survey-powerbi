@@ -1,0 +1,68 @@
+table Medidas
+	lineageTag: 8c190244-c4b0-4398-9219-0ec2c874ff7c
+
+	measure Salidas = DISTINCTCOUNT(Salidas[ID Salida])
+		formatString: 0
+		lineageTag: e306cd2d-9b34-4197-8d4b-1a25f71e1f5e
+
+	measure 'Calificación promedio' = AVERAGE(Calificaciones[Puntos])
+		formatString: 0.00
+		lineageTag: b7cab3be-68b2-4e08-af4f-aa6c50f01ace
+
+	measure '% Salen antes de 3 meses' =
+			
+			DIVIDE(
+			    CALCULATE([Salidas], Salidas[Orden antigüedad] <= 2),
+			    [Salidas]
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 05bc51e4-2ce6-4651-ae4c-caa44244b48f
+
+	measure Menciones = COUNTROWS(Motivos)
+		formatString: 0
+		lineageTag: 9771d9f3-eb9f-4be6-b275-c76ee8fb83bd
+
+	measure '% de salidas con este motivo' =
+			
+			DIVIDE(
+			    DISTINCTCOUNT(Motivos[ID Salida]),
+			    CALCULATE([Salidas], REMOVEFILTERS(Motivos[Motivo], Motivos[Tipo de salida]))
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ee6114c4-3095-4c95-9e16-ca6fd575fc09
+
+	measure '% Salidas involuntarias' =
+			
+			DIVIDE(
+			    CALCULATE(DISTINCTCOUNT(Motivos[ID Salida]), Motivos[Tipo de salida] = "Involuntaria"),
+			    [Salidas]
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 352b0a4d-3d7d-46c9-8b6d-3739ecbd47b8
+
+	measure 'Calificación (sobre 10)' = [Calificación promedio] * 2
+		lineageTag: d732a6d2-c538-4434-9a07-734e8c56f6b6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Meta = [Valor de Meta objetivo]
+		formatString: 0
+		lineageTag: e7a5fc4d-0e28-4368-b141-5e473397a985
+
+	measure 'Brecha vs meta' = [Calificación (sobre 10)] - [Meta]
+		lineageTag: 1d061205-e472-485a-bb0b-2ad566b7036b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Columna1 = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Columna1", type text}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"Columna1"})
+				in
+				    #"Columnas quitadas"
+
+	annotation PBI_ResultType = Table
+

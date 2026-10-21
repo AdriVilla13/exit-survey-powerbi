@@ -1,0 +1,88 @@
+table Salidas
+	lineageTag: b31ffc87-717e-45d9-af8b-78bcf3f02d8c
+
+	column 'Fecha de salida'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 8545453a-9850-4313-96f7-22e9dec94e6c
+		summarizeBy: none
+		sourceColumn: Fecha de salida
+
+		variation Variación
+			isDefault
+			relationship: 20f2e162-c3d7-49c5-b735-cd235eebb262
+			defaultHierarchy: LocalDateTable_79ad3f34-9ef8-40fc-881b-5229e895ac51.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Turno
+		dataType: string
+		lineageTag: 37bfd7fe-3786-458b-bef1-4936137e0309
+		summarizeBy: none
+		sourceColumn: Turno
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ID Salida'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7eab0cfe-f77a-44ab-b790-9be6c3206243
+		summarizeBy: none
+		sourceColumn: ID Salida
+
+		annotation SummarizationSetBy = Automatic
+
+	column Área
+		dataType: string
+		lineageTag: 4bb64ade-2446-495a-b7b0-302e214bdd38
+		summarizeBy: none
+		sourceColumn: Área
+
+		annotation SummarizationSetBy = Automatic
+
+	column Antigüedad
+		dataType: string
+		lineageTag: e9df5e7a-35de-4f70-80b2-14592bd96e29
+		summarizeBy: none
+		sourceColumn: Antigüedad
+		sortByColumn: 'Orden antigüedad'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sugerencia
+		dataType: string
+		lineageTag: 589378d5-b291-46bc-a5c2-a1a6fb832766
+		summarizeBy: none
+		sourceColumn: Sugerencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Orden antigüedad'
+		dataType: int64
+		formatString: 0
+		lineageTag: 55c9de09-b2db-4393-92cb-ee54c00601b9
+		summarizeBy: sum
+		sourceColumn: Orden antigüedad
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Salidas = m
+		mode: import
+		source =
+				let
+				    Origen = Base,
+				    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"Fecha de salida", "Turno", "ID Salida", "¿Área del restaurante donde desarrollaba sus actividades?", "¿Tiempo que laboró en la empresa?", "¿Qué sugieres para mejorar las condiciones laborales de la empresa?"}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Otras columnas quitadas",{{"¿Área del restaurante donde desarrollaba sus actividades?", "Área"}, {"¿Tiempo que laboró en la empresa?", "Antigüedad"}, {"¿Qué sugieres para mejorar las condiciones laborales de la empresa?", "Sugerencia"}}),
+				    #"Columna condicional agregada" = Table.AddColumn(#"Columnas con nombre cambiado", "Orden antigüedad", each if [Antigüedad] = "Menos de un mes" then 1 else if [Antigüedad] = "De 1 a 3 meses" then 2 else if [Antigüedad] = "De 3 a 6 meses" then 3 else 4),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Columna condicional agregada",{{"Orden antigüedad", Int64.Type}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

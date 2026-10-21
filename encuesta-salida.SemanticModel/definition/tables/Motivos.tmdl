@@ -1,0 +1,47 @@
+table Motivos
+	lineageTag: c0f58c54-0853-4318-8d1c-219ed43a2b0b
+
+	column 'ID Salida'
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d05a839-bc9c-4cf9-a45e-9312db2944d9
+		summarizeBy: none
+		sourceColumn: ID Salida
+
+		annotation SummarizationSetBy = Automatic
+
+	column Motivo
+		dataType: string
+		lineageTag: 0d039e84-f06d-4c45-879a-40c68ef858e7
+		summarizeBy: none
+		sourceColumn: Motivo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tipo de salida'
+		dataType: string
+		lineageTag: 65f0d72e-c2f0-4586-a9d6-72d53247ea10
+		summarizeBy: none
+		sourceColumn: Tipo de salida
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Motivos = m
+		mode: import
+		source =
+				let
+				    Origen = Base,
+				    #"Otras columnas quitadas" = Table.SelectColumns(Origen,{"ID Salida", "¿Cuál es la razón por la que te retiras de la empresa? (Puedes marcar más de una opción)."}),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Otras columnas quitadas",{{"¿Cuál es la razón por la que te retiras de la empresa? (Puedes marcar más de una opción).", "Motivo"}}),
+				    #"Dividir columna por delimitador" = Table.ExpandListColumn(Table.TransformColumns(#"Columnas con nombre cambiado", {{"Motivo", Splitter.SplitTextByDelimiter(", ", QuoteStyle.Csv), let itemType = (type nullable text) meta [Serialized.Text = true] in type {itemType}}}), "Motivo"),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Dividir columna por delimitador",{{"Motivo", type text}}),
+				    #"Texto recortado" = Table.TransformColumns(#"Tipo cambiado",{{"Motivo", Text.Trim, type text}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Texto recortado",".","",Replacer.ReplaceText,{"Motivo"}),
+				    #"Columna condicional agregada" = Table.AddColumn(#"Valor reemplazado", "Tipo de salida", each if [Motivo] = "Faltas injustificadas" then "Involuntaria" else if [Motivo] = "Intoxicación etílica en horario laboral" then "Involuntaria" else if [Motivo] = "Falta de respeto a un cliente" then "Involuntaria" else if [Motivo] = "Falta de respeto hacia mis compañeros" then "Involuntaria" else "Voluntaria")
+				in
+				    #"Columna condicional agregada"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

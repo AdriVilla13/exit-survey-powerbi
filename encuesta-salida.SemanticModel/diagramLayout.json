@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 75.199996948242188,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 170.17941566988617,
+            "y": 246.3776557862243
+          },
+          "nodeIndex": "Calificaciones",
+          "nodeLineageTag": "b4af4346-95d2-4c47-90ff-a2e85e37d96a",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 655.57687716577959,
+            "y": 326.60887095682563
+          },
+          "nodeIndex": "Motivos",
+          "nodeLineageTag": "c0f58c54-0853-4318-8d1c-219ed43a2b0b",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 13,
+            "y": 13.695967722286127
+          },
+          "nodeIndex": "Preguntas",
+          "nodeLineageTag": "079fc34e-2579-4725-ac2e-a148947708b0",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 447.37645520037051,
+            "y": 5
+          },
+          "nodeIndex": "Salidas",
+          "nodeLineageTag": "b31ffc87-717e-45d9-af8b-78bcf3f02d8c",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 762.57687716577948,
+            "y": 138.94971498879471
+          },
+          "nodeIndex": "Medidas",
+          "nodeLineageTag": "8c190244-c4b0-4398-9219-0ec2c874ff7c",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1537.5768771657795,
+            "y": 71.90616660606446
+          },
+          "nodeIndex": "Meta objetivo",
+          "nodeLineageTag": "f37fc7a5-f07b-4bf0-a00e-2066650baf6b",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

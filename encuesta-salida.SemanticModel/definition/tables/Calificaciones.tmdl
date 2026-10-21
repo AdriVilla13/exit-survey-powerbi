@@ -1,0 +1,44 @@
+table Calificaciones
+	lineageTag: b4af4346-95d2-4c47-90ff-a2e85e37d96a
+
+	column 'ID Salida'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6accf205-3d6a-408f-a8e1-ee28935f2c55
+		summarizeBy: none
+		sourceColumn: ID Salida
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pregunta
+		dataType: string
+		lineageTag: 9526bc23-7c27-45eb-910e-fbe10f498697
+		summarizeBy: none
+		sourceColumn: Pregunta
+
+		annotation SummarizationSetBy = Automatic
+
+	column Puntos
+		dataType: int64
+		formatString: 0
+		lineageTag: 563dadce-4bba-467f-a60c-052a9291efb6
+		summarizeBy: sum
+		sourceColumn: Puntos
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calificaciones = m
+		mode: import
+		source =
+				let
+				    Origen = Base,
+				    #"Columnas quitadas" = Table.RemoveColumns(Origen,{"Fecha de salida", "Turno", "¿Área del restaurante donde desarrollaba sus actividades?", "¿Tiempo que laboró en la empresa?", "¿Cuál es la razón por la que te retiras de la empresa? (Puedes marcar más de una opción).", "¿Qué sugieres para mejorar las condiciones laborales de la empresa?","Numero empleado"}),
+				    #"Otras columnas con anulación de dinamización" = Table.UnpivotOtherColumns(#"Columnas quitadas", {"ID Salida"}, "Atributo", "Valor"),
+				    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Otras columnas con anulación de dinamización",{{"Atributo", "Pregunta"}, {"Valor", "Puntos"}})
+				in
+				    #"Columnas con nombre cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,28 @@
+table 'Meta objetivo'
+	lineageTag: f37fc7a5-f07b-4bf0-a00e-2066650baf6b
+
+	measure 'Valor de Meta objetivo' = SELECTEDVALUE('Meta objetivo'[Meta objetivo], 9)
+		lineageTag: 52491d22-8ebf-4111-a394-ea5e624e1d8d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Meta objetivo'
+		lineageTag: df73c8a5-d5c8-4301-bb70-e1893f665cae
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Meta objetivo' = calculated
+		mode: import
+		source = GENERATESERIES(8, 10, 0.5)
+
+	annotation PBI_Id = 709aa45dc25443b78ab939f43550b039
+

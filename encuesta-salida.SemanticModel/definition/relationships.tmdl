@@ -1,0 +1,17 @@
+relationship 20f2e162-c3d7-49c5-b735-cd235eebb262
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Salidas.'Fecha de salida'
+	toColumn: LocalDateTable_79ad3f34-9ef8-40fc-881b-5229e895ac51.Date
+
+relationship AutoDetected_9dffb66f-e9fa-44bf-a3e4-90221232f40d
+	fromColumn: Calificaciones.'ID Salida'
+	toColumn: Salidas.'ID Salida'
+
+relationship AutoDetected_6f0c29a1-f617-4757-9242-050190e53918
+	fromColumn: Motivos.'ID Salida'
+	toColumn: Salidas.'ID Salida'
+
+relationship AutoDetected_9b3cfa30-085d-4676-9a17-7b7c8325ca69
+	fromColumn: Calificaciones.Pregunta
+	toColumn: Preguntas.Pregunta
+

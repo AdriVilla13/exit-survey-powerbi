@@ -1,0 +1,26 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-MX
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Base","Salidas","Calificaciones","Motivos","Preguntas","Medidas"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Salidas
+ref table DateTableTemplate_061e64fc-cd12-4be8-8f18-6d08ba3a157b
+ref table LocalDateTable_79ad3f34-9ef8-40fc-881b-5229e895ac51
+ref table Calificaciones
+ref table Motivos
+ref table Preguntas
+ref table Medidas
+ref table 'Meta objetivo'
+
+ref cultureInfo es-ES
+
